@@ -1,0 +1,848 @@
+{{! 
+  @description: 乐高mini定制
+  @author: 刘勇威
+  @integrate: 罗稼泓
+  @coreJSAuthor: 刘勇威
+ }}
+
+{{!  引入公共插槽v2.0  }}
+{{snippet "sunzi-slot-template-2"}}
+
+{{!  核心库版本  }}
+{{assign "coreJs" "lego-mini-v1.4.0-beta.js"}}
+
+{{!  定制化数据地址  }}
+<!-- {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-ky.json" }} -->
+{{assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-draw-ky.json"}}
+{{!  发型集合类型  }}
+{{assign "hairBlockCollection" "lego-hairstyle"}}
+{{!  手部附件集合类型  }}
+{{assign "handBlockCollection" "minifigures-handheld-accessories"}}
+{{!  刀板类型  }}
+{{assign "bladeType" "default"}}
+{{assign "customButton" "sunzi_button_lego"}}
+
+{{!  乐高mini部分涂鸦  }}
+{{#if (inArray product.tags 'custom-sunzi-lego-mini-ky-draw')}}
+  {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-draw-ky.json" }}
+  {{!  乐高mini部分涂鸦 + 手部配件  }}
+{{else if (inArray product.tags "custom-sunzi-lego-mini-ky-draw-hand")}}
+  {{assign "coreJs" "lego-mini-v1.7.0-beta.js"}}
+  {{assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-draw-ky-hand.json"}}
+  {{!  乐高mini部分涂鸦 + 手部配件 + 双人  }}
+{{else if (inArray product.tags "custom-sunzi-lego-mini-ky-hand-double")}}
+  {{assign "customButton" "sunzi_button_double"}}
+  {{assign "coreJs" "lego-mini-v1.7.0-beta.js"}}
+  {{assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-draw-ky-hand-double.json"}}
+  {{!  乐高mini贺卡追销 + 单人  }}
+{{else if (inArray product.tags "custom-sunzi-lego-mini-card-increment")}}
+  {{assign "coreJs" "lego-mini-v1.7.0-beta.js"}}
+  {{assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-card-increment.json"}}
+  {{!  乐高mini贺卡追销 + 双人  }}
+{{else if (inArray product.tags "custom-sunzi-lego-mini-card-increment-double")}}
+{{!-- myblock 首页双人 --}}
+  {{assign "customButton" "sunzi_button_double"}}
+  {{assign "coreJs" "lego-mini-v1.7.0-beta.js"}}
+  {{assign
+    "requestURL"
+    "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-card-increment-double.json"
+  }}
+  {{!  乐高mini部分涂鸦 + 双人  }}
+{{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-high-brick') }}
+  {{ assign "bladeType" "high-brick" }}
+  {{assign "coreJs" "lego-mini-v1.3.0-beta.js"}}
+  {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-new-custom.json" }}
+{{!  乐高mini高砖刀板 + 手部配件  }}
+ {{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-high-brick-hand') }}
+ {{ assign "coreJs" "lego-mini-v1.7.0-beta.js" }}
+ {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-new-custom-hand.json" }}
+  {{!  乐高mini高砖刀板 + 手部配件 + 双人  }}
+ {{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-high-brick-hand-double') }}
+ {{ assign "customButton" "sunzi_button_double" }}
+ {{ assign "coreJs" "lego-mini-v1.7.0-beta.js" }}
+ {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-new-custom-hand-double.json" }}
+{{!  乐高mini高砖刀板 + 双人  }}
+{{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-high-brick-double') }}
+  {{ assign "customButton" "sunzi_button_double" }}
+  {{ assign "bladeType" "high-brick" }}
+  {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-new-custom-double.json" }}
+{{!  乐高mini高砖刀板钥匙扣  }}
+{{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-high-brick-buckle') }}
+  {{ assign "bladeType" "high-brick" }}
+  {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-new-custom-buckle.json" }}
+  {{ assign "hairBlockCollection" "lego-keychain-hairstyle" }}
+{{!  乐高mini部分涂鸦 + 双人  }}
+{{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-double') }}
+  {{assign "customButton" "sunzi_button_double"}}
+  {{assign "coreJs" "lego-mini-v1.5.0-beta.js"}}
+  {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-draw-ky-double.json" }}
+{{!  乐高mini钥匙扣  }}
+{{ else if (inArray product.tags 'custom-sunzi-lego-mini-ky-buckle') }}
+  {{ assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-ky-buckle.json" }}
+  {{ assign "hairBlockCollection" "lego-keychain-hairstyle" }}
+   {{!  乐高mini部分双人+婚礼主题  }}
+{{else if (inArray product.tags "custom-sunzi-lego-mini-double-wedding")}}
+  {{assign "coreJs" "lego-mini-v1.7.0-beta.js"}}
+  {{assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-double-wedding.json"}}
+  {{!  乐高mini 1-5人底座  }}
+{{else if (inArray product.tags "custom-sunzi-lego-mini-multi")}}
+  {{assign "coreJs" "lego-mini-v1.8.0-beta.js"}}
+  {{assign "requestURL" "https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/lego-mini-draw-ky-hand-multi.json"}}
+{{/if}}
+
+{{!  定制化表单  }}
+<div class="sunzi-form">
+  <input type="hidden" name="properties[_from]" value="sunzi-lego-mini-ky" />
+
+  {{!  额外的表单参数  }}
+
+  {{!  默认表单参数  }}
+  <input type="text" id="sunzi-input" name="properties[customInfo]" required="required" />
+  <input type="hidden" id="sunzi-cart" name="properties[_sunzi_cart]" />
+  <input type="hidden" id="sunzi-related-products" name="properties[_sunzi_related_products]" />
+  {{!  定制按钮  }}
+  <div class="sunzi-form-content">
+    <div id="sunzi-node">
+      <div class="sunzi-node-loading">
+        <span class="dots">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{! 变体元素 }}
+<script id="lego-mini-ky" crossorigin src="https://wuxian-chanpin.oss-accelerate.aliyuncs.com/sunzi/{{coreJs}}" defer></script>
+
+<script defer="async">
+  // var data;
+     // 新版追销参数
+    // 数量控制
+    var chaseBindQuantity = {
+      "allow": 101,
+      "not_allow": 102,
+      "follow": 103
+    }
+    // 删除控制
+    var chaseBindAloneDelete = {
+      "allow": 201,
+      "not_allow": 202
+    }
+    // 主产品id用于新版追销
+    var mainProductBindId = _create_uuid();
+    var singleData;
+    var doubleData;
+  _sunzi_request('{{ requestURL }}', function(data) {
+    console.log('data',data, _sunzi_global_data.shop.language)
+    initDataSingle(data);   
+
+     if(!'{{ isHome }}') {
+      renderComponentSingle("sunzi-node",1,data);
+    }
+
+  })
+
+  // 初始化数据
+   {{!  初始化组件data  }}
+    function initDataSingle(data) {
+      var legoStorageBoxSettings ;
+      var legoStorageBox;
+      var legoBaseSettings ;
+      var legoBase;
+      var legoCardIncrementSettings;
+      var legoCardIncrement;
+      var legoHandStyleSettings;
+      var legoHandStyle;
+      var legoHairStyleSettings;
+      var legoHairStyle;
+     {{#with this as |global|}}
+      {{ assign 'product_list' (get '' global.all_products) }}
+      {{ assign 'collection_list' (get '' global.all_collections) }}
+      var productList = {{{ JSONstringify product_list }}}
+      var collectionList = {{{ JSONstringify collection_list }}}
+      {{#each section.blocks}}
+        {{#if (trim type) '==' "lego_hand_style"}}
+           legoHandStyleSettings = {{{ JSONstringify settings }}}
+           legoHandStyle = collectionList[legoHandStyleSettings.hand_style_collection]
+        {{ else if (trim type) '==' "lego_hair_style"}}
+          console.log('setting', {{{ JSONstringify settings }}})
+           legoHairStyleSettings = {{{ JSONstringify settings }}}
+           legoHairStyle = collectionList[legoHairStyleSettings.hair_style_collection]
+          console.log('发型信息初始化',legoHairStyle)
+         {{ else if (trim type) '==' "lego_product_storage_box"}}
+          console.log('setting', {{{ JSONstringify settings }}})
+           legoStorageBoxSettings = {{{ JSONstringify settings }}}
+           legoStorageBox = productList[legoStorageBoxSettings.product]
+          console.log('储物盒信息初始化',legoStorageBox)
+        {{ else if (trim type) '==' "lego_product_base"}}
+          console.log('setting', {{{ JSONstringify settings }}})
+           legoBaseSettings = {{{ JSONstringify settings }}}
+           legoBase = productList[legoBaseSettings.product]
+          // var legoBaseText = productList[legoBaseSettings.lego_product_base_text]
+          // var legoBaseTextLength = productList[legoBaseSettings.lego_product_base_length]
+
+          console.log('底座刻字信息初始化',legoBase)
+        {{ else if (trim type) '==' "lego_product_card_increment"}}
+          console.log('setting', {{{ JSONstringify settings }}})
+           legoCardIncrementSettings = {{{ JSONstringify settings }}}
+           legoCardIncrement = productList[legoCardIncrementSettings.product]
+      
+          console.log('贺卡信息初始化',legoCardIncrement)
+        {{else}}
+        console.log('没找到')
+        {{/if}}
+      {{/each}}
+    {{/with}}
+      
+      if('{{{ JSONstringify lego_product_storage_box}}}') {
+        legoStorageBox = {{{ JSONstringify lego_product_storage_box}}}
+        console.log('{{{ JSONstringify lego_product_storage_box}}}',{{{ JSONstringify lego_product_storage_box}}})
+      }
+      // if({{{ JSONstringify lego_product_card_increment}}}) {
+      //   legoCardIncrement = {{{ JSONstringify lego_product_card_increment}}}
+      //   console.log('{{{ JSONstringify lego_product_card_increment}}}',{{{ JSONstringify lego_product_card_increment}}})
+      // }
+
+      {{! 储物盒关联产品 }}
+      if(legoStorageBox) {
+       var storage_box_product_media = legoStorageBox.media[0];
+       var storage_box_product_variant = legoStorageBox.variants[0];
+        if (storage_box_product_media && storage_box_product_variant) {
+          data.miniStorageBox = {
+            ...storage_box_product_variant,
+            thumb: storage_box_product_media.src,
+            price: (storage_box_product_variant.price / 100 || 0),
+            originPrice: (storage_box_product_variant.compare_at_price / 100 || 0),
+          };
+        };
+      }
+  
+  
+
+      {{! 底座刻字关联产品 }}
+      if(legoBase) {
+        console.log('底座刻字关联产品',legoBase)
+        var base_product_media = legoBase.media[0] ;
+        var base_product_variant = legoBase.variants[0] ; 
+        if (base_product_media && base_product_variant) {
+          data.increment = {
+            ...base_product_variant,
+            price: (base_product_variant.price / 100 || 0),
+            customText: {
+              "defaultText": legoBaseSettings.lego_product_base_text,
+              "maxLength": legoBaseSettings.lego_product_base_length,
+            },
+            featured_image: legoBase.featured_image.src,
+            // id: legoBase.id
+          };
+        };
+      }
+    
+
+      {{! 贺卡追销关联产品 }}
+      if(legoCardIncrement) {
+        console.log('贺卡追销')
+        var card_increment_product_media = legoCardIncrement.media;
+        var card_increment_product_variant = legoCardIncrement.variants;
+
+        //  调整贺卡追销json字段
+        if (card_increment_product_media && card_increment_product_variant&& data.cardIncrement) {
+          const discountPrice=card_increment_product_variant[0].price / 100|| 0;
+          const originalPrice=card_increment_product_variant[0].compare_at_price / 100 || 0;
+          const diff = originalPrice - discountPrice;
+          const ratio = diff / originalPrice;
+          const discount = Math.round(ratio * 100).toString().replace('.0', '');
+          let cardList=data.cardIncrement.cardList;
+          const cardList_product = card_increment_product_variant.map(item => ({ sku:item.sku,id:item.id,product:item.image})); // lazyShop: product:item.product
+          const cardListSku=card_increment_product_variant.map(item=> item.sku);
+          cardList=cardList
+          .filter(item=>cardListSku.includes(item.sku))
+          .map(item=>{
+            const product=cardList_product.find(({sku})=>sku===item.sku)||{};
+            return{
+              ...item,
+              product:product.product,
+              id:product.id
+            }
+          })
+          data.cardIncrement = {
+            ...data.cardIncrement, 
+            discountPrice,  //折扣价
+            originalPrice,  // 原价
+            discount,       // 折扣率
+            cardList        // 贺卡列表
+          };
+        };
+      }
+  
+      console.log(card_increment_product_media,card_increment_product_variant,'===card_increment_product')
+
+  
+      {{! 关联产品信息初始化 }}
+      if(legoHairStyle) {
+        var hair_products = legoHairStyle.products.map(item => ({ 
+          sku: item.variants[0].sku.startsWith('SVP') ? item.variants[0].sku.replace('SVP-','') : item.variants[0].sku, 
+          price: item.variants[0].price, 
+          id: item.variants[0].id 
+        }));
+        console.log('hair_products',hair_products)
+        var hair_product_skus = hair_products.map(item => item.sku);
+        // 从json中过滤掉集合里不存在的SKU 在为每个数据复制变体ID和价格        
+        data.hairs = data.hairs.map(
+            item => ({
+              ...item,
+              childrens: item.childrens
+                  .filter(child => hair_product_skus.indexOf(child.sku) > -1 || child.id === "")
+                  .map(child => {
+                      const product = hair_products.find(({ sku }) => sku === child.sku) || {};
+                      return {
+                        ...child,
+                        variantId: product.id,
+                        price: (product.price / 100 || 0)
+                      }
+                  })
+            })
+        );
+      } else console.error("配置错误：【lego-mini发型集合配置信息】必要配置丢失")
+      
+
+      // 手部配件json过滤处理
+      if(data.hand && legoHandStyle){
+        console.log(legoHandStyle.products,'===legoHandStyle')
+        const hand_products = legoHandStyle.products.map(item => ({ 
+          sku: item.variants[0].sku.startsWith('SVP') ? item.variants[0].sku.replace('SVP-','') : item.variants[0].sku,
+          price: item.variants[0].price, 
+          id: item.variants[0].id 
+        }))
+        const hand_product_skus = hand_products.map(item => item.sku);
+        data.hand = data.hand.map(
+            item => ({
+              ...item,
+              childrens: item.childrens
+                  .filter(child => hand_product_skus.indexOf(child.sku) > -1)
+                  .map(child => {
+                      const product = hand_products.find(({ sku }) => sku === child.sku) || {};
+                      return {
+                          ...child,
+                          id: product.id,
+                          price: (product.price / 100 || 0)
+                      }
+                  })
+          })
+        );
+      } else if (data.hand && !legoHandStyle) console.error("配置错误：【lego-mini手部配件集合配置信息】必要配置丢失")
+
+      var product = {{{ JSONstringify product }}}
+
+      // 工厂哑光和亮光变体
+      const variants = product.variants
+      if (variants && variants.length > 1) {
+        const originPrice = variants.reduce((total, item) => {
+          if (total === null) total = item.price;
+          else total = Math.min(total, item.price);
+          return total;
+        }, null);
+        data.factoryStyles = variants.map((item, index) => {
+          const price = (item.price - originPrice) / 100;
+          return {
+            ...item,
+            name: item.title,
+            price,
+          };
+        })
+      }
+
+      // 配置默认模型
+      function setDefaultTexture(tags, key, prefix) {
+        if (tags && tags.includes(prefix)) {
+          console.log(prefix,tags,'===prefix')
+          const param = tags.split(",");
+          const [headID, bodyID, hairID, legID] = param.find(tag => tag.includes(prefix))
+                                                            .replace(prefix, "")
+                                                            .split("-");
+          data[key] = { headID, bodyID, hairID, legID };
+        }
+      }
+
+      // 配置1-5人仔变体信息
+      if(product.variants&& data.multiTemplateInfo){
+        data.multiTemplateInfo.variantList=product.variants.map((item,index)=>(
+          {
+            ...data.multiTemplateInfo.variantList[index],
+            id:item.id,
+            sku:item.sku,
+            name:item.title
+          }
+        ))
+      }
+    
+      const tags = product.tags;
+      console.log(tags,'==tags')
+      // 配置第一个默认模型
+      setDefaultTexture(tags, "defaultTexture", "custom-sunzi-lego-default-");
+      // 配置第二个默认模型
+      setDefaultTexture(tags, "defaultDoubleTexture", "custom-sunzi-lego-double-");   
+      
+      return data;
+    }
+
+  function renderComponentSingle(domId,_matomoId,data) {
+    console.log(data, "lyt");
+       LegoMini.render(
+        LegoMini.default,
+          {
+            ...data,
+             shop: {
+              language: _sunzi_global_data.shop.language,
+              currency: _sunzi_global_data.shop.currency
+            },
+            onVariantChange(...args) {
+              const [, styleTemplates] = args;
+              if (styleTemplates) _sunzi_variant_change(0, styleTemplates.name)
+            },
+           async onConfirm (output) {
+
+            var product = {{{ JSONstringify product }}}
+
+              // 唤醒loading
+              _sunzi_loading();
+              
+              {{!-- const sku = _sunzi_cur_variant("sku"); --}}
+              {{!-- const sku = getCurProduct('sku'); --}}
+
+              // 处理关联产品逻辑
+              const relatedProducts = [];
+              const _queue = [];
+              
+
+              {{! 组装加车参数 }}
+              var increment = {}
+              if(output.increment){
+                increment._sunzi_text = {
+                  value: output.increment.outputText,
+                  font: output.increment.outputFontFamily,
+                };
+
+                increment.featured_image = data.increment.featured_image
+                increment._sunzi_text_ai = output.increment.outputEffectUrl;
+                increment._sunzi_text_effect = output.increment.outputUrl;
+                const uuid = _create_uuid();
+                relatedProducts.push(uuid);
+                _queue.push({
+                  id: output.increment.id,
+                  properties: {
+                    _sunzi_main_product: uuid,
+                    customInfo: JSON.stringify({...increment})
+                  },
+                  quantity: 1,
+                });
+              };
+
+              let previewImage;
+              let param;
+              const sku = getCurProduct('sku');
+
+              if (output.doubleMini) {    
+                console.log('双人')
+                // 双人
+                const { effect, left, right, base, incrementBase,templateOutput,multiTemplateCompose,legoGroupData,backEffect} = output;
+                previewImage = effect;
+                // 底座颜色baseColour，请不要使用baseColor
+                const _sunzi_remark = { baseColour: base?.name };
+                let miniList = []
+                if(multiTemplateCompose){ // 1-5 人仔模版
+                  miniList=legoGroupData;
+                }else{ // 双人
+                  miniList = [left, right];
+                }
+                miniList.forEach((item, index) => {
+                  const { data, remark } = item;
+                  const _index = index + 1
+                  _sunzi_remark[`number${_index}`] = `${sku}-${data.head.shape.id}-${data.body.shape.id}-${data.foot.shape.id}`;
+                  _sunzi_remark[`head${_index}`] = data.head.colorName;
+                  _sunzi_remark[`body${_index}`] = data.body.colorName;
+                  _sunzi_remark[`foot${_index}`] = data.foot.colorName;
+                  _sunzi_remark[`Z${_index}`] = remark && remark['body-front'];
+                  _sunzi_remark[`B${_index}`] = remark && remark['body-back'];
+                  _sunzi_remark[`hair${_index}`]=data.hair.shape.sku||'';
+                  // 双人头发
+                  if (data.hair&&data.hair.shape.variantId) {
+                    const uuid = _create_uuid();
+                    relatedProducts.push(uuid);
+                    _queue.push({
+                      "id": data.hair.shape.variantId,
+                      properties:[
+                        {type: 'text', name: "_sunzi_main_product", value: uuid},
+                        {
+                          type: 'text',
+                          name: '_bindTo',
+                          value: mainProductBindId,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindQuantity',
+                          value: chaseBindQuantity.not_allow,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindAloneDelete',
+                          value: chaseBindAloneDelete.not_allow,
+                        },
+                      ],
+                    });
+                  }
+                  // 双人手部部件
+                  if(data.hand){
+                    let annex=[]
+                    const uuid=_create_uuid();
+                    relatedProducts.push(uuid);
+                    const {shapes}=data.hand;
+                    shapes.forEach(item=>{
+                    _queue.push({
+                      "id":item.id,
+                     properties:[
+                        {type: 'text', name: "_sunzi_main_product", value: uuid},
+                        {
+                          type: 'text',
+                          name: '_bindTo',
+                          value: mainProductBindId,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindQuantity',
+                          value: chaseBindQuantity.not_allow,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindAloneDelete',
+                          value: chaseBindAloneDelete.not_allow,
+                        },
+                      ],
+                    })
+                    annex.push(item.sku);
+                    })
+                    _sunzi_remark[`annex${_index}`]=annex.join(',');
+                   
+                  }
+                })
+                // 如果是新高砖，第一张ai图和第二张ai图是一样的，删除第一张ai图
+                if ('{{bladeType}}' === 'high-brick') {
+                  left.apImages.shift();
+                  right.apImages.shift();
+                }
+
+                // 1-5人仔模版
+                if(multiTemplateCompose){
+                  param = {
+                  '_sunzi_effects': [effect, backEffect],
+                  '_sunzi_remark': _sunzi_remark,
+                  'featured_image': product.featured_image.src,
+                  };
+                  param['_sunzi_compose']=[
+                    {
+                      rule:511,
+                      data:{
+                        composeCoord:multiTemplateCompose.composeCoord
+                      }
+                    }
+                  ]
+                  console.log(param,multiTemplateCompose,'==multiTemplateCompose');
+                }
+                else{ // 常规双人模版
+                  param = {
+                  '_sunzi_effects': [effect, left.frontUrl, left.backUrl, right.frontUrl, right.backUrl],
+                  '_sunzi_ais': [...left.apImages, ...right.apImages],
+                  '_sunzi_remark': _sunzi_remark,
+                  'featured_image': getCurProduct('featuredImage'),
+                  };
+                }
+                // 附带底座
+                if(incrementBase&&!multiTemplateCompose){
+                  param['_sunzi_text'] = {
+                    value: incrementBase.outputText,
+                    font: incrementBase.outputFontFamily.name
+                  }
+                  param['_sunzi_text_ai'] =  incrementBase.outputEffectUrl
+                  param['_sunzi_text_effect'] = incrementBase.outputUrl
+                }
+                console.log(templateOutput,'===templateOutput')
+              
+                // 婚礼模版
+                if (output.templateOutput) {
+                  const { templateOutput } = output
+                  param['_sunzi_texts'] = templateOutput.lineText;
+                  delete param['_sunzi_ais'];
+          
+                  if (templateOutput.composeCoord) {
+                    param['_sunzi_compose']=[]
+                    param['_sunzi_compose'].push({
+                      rule: 511,
+                      data: {
+                        relateImage: templateOutput.pdfURL,
+                        composeCoord: templateOutput.composeCoord,
+                      },
+                    })
+                  }
+                }
+
+              } else {
+                // 单人
+                const { frontUrl, backUrl, apImages, remark, data } = output;
+                previewImage = frontUrl;
+                // 如果是新高砖，第一张ai图和第二张ai图是一样的，删除第一张ai图
+                if ('{{bladeType}}' === 'high-brick') apImages.shift();
+                param = {
+                  '_sunzi_effects': [frontUrl, backUrl],
+                  '_sunzi_ais': apImages,
+                  '_sunzi_remark': {
+                    number: `${sku}-${data.head.shape.id}-${data.body.shape.id}-${data.foot.shape.id}`,
+                    head: data.head.colorName,
+                    body: data.body.colorName,
+                    foot: data.foot.colorName,
+                    Z: remark && remark['body-front'],
+                    B: remark && remark['body-back'],
+                    hair:data.hair.shape.sku
+                  },
+                  'featured_image': product.featured_image.src,
+                };
+                // 单人头发
+                if(data.hair&&data.hair.shape.variantId) { 
+                  console.log('单人头发')
+                  const uuid = _create_uuid();
+                  relatedProducts.push(uuid);
+                  _queue.push({
+                    "id": data.hair.shape.variantId,
+                    properties:[
+                      {type: 'text', name: "_sunzi_main_product", value: uuid},
+                      {
+                        type: 'text',
+                        name: '_bindTo',
+                        value: mainProductBindId,
+                      },
+                      {
+                        type: 'text',
+                        name: '_bindQuantity',
+                        value: chaseBindQuantity.not_allow,
+                      },
+                      {
+                        type: 'text',
+                        name: '_bindAloneDelete',
+                        value: chaseBindAloneDelete.not_allow,
+                      },
+                    ],
+                  });
+                }
+      
+                // 单人手部部件
+                if(data.hand){
+                  const uuid=_create_uuid();
+                  relatedProducts.push(uuid);
+                  
+                  const {shapes}=data.hand;
+                  let annex=[]
+                  shapes.forEach(item=>{
+                    _queue.push({
+                      "id":item.id,
+                     properties:[
+                        {type: 'text', name: "_sunzi_main_product", value: uuid},
+                        {
+                          type: 'text',
+                          name: '_bindTo',
+                          value: mainProductBindId,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindQuantity',
+                          value: chaseBindQuantity.not_allow,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindAloneDelete',
+                          value: chaseBindAloneDelete.not_allow,
+                        },
+                    ],
+                    })
+                    annex.push(item.sku)
+                  })
+                  param._sunzi_remark[`annex`]=annex.join(',')
+                }
+             
+              }
+          
+				        // mini图存储盒
+                if (output.miniStorageBox) {
+                  console.log('mini图存储盒')
+                  const uuid = _create_uuid();
+                  relatedProducts.push(uuid);
+                  _queue.push({
+                    "id": output.miniStorageBox.id,
+                    properties:[
+                        {type: 'text', name: "_sunzi_main_product", value: uuid},
+                        {
+                          type: 'text',
+                          name: '_bindTo',
+                          value: mainProductBindId,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindQuantity',
+                          value: chaseBindQuantity.not_allow,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindAloneDelete',
+                          value: chaseBindAloneDelete.not_allow,
+                        },
+                    ],
+                  });
+                }
+
+                 // 贺卡追销加车
+                 if (output.cardIncrementRes) {
+                  console.log('贺卡追销')
+                  const {font,text,previewImg,id}=output.cardIncrementRes;
+                  const arr=data.cardIncrement.cardList;
+                  const img=arr.find(item=>item.id===id).product.src // lazyshop product.images[0]
+                  console.log(arr,'==featured_image',img)
+                  const cardIncrementData={
+                    _sunzi_text:{
+                      value:text,
+                      font:font,
+                    },
+                    _sunzi_effect:previewImg,
+                    featured_image:img
+                    
+                  }
+                  data.cardIncrement.cardList[0].composeCoord.lineTexts[0].text=text;
+                  cardIncrementData['_sunzi_compose']= [
+                      {
+                        rule: 511,
+                        data: {
+                          composeCoord:[data.cardIncrement.cardList[0].composeCoord]
+                        },
+                      }
+                  ]
+                  const uuid = _create_uuid();
+                  relatedProducts.push(uuid);
+                  _queue.push({
+                      "id":output.cardIncrementRes.id ,
+                      properties:[
+                        {type: 'text', name: "_sunzi_main_product", value: uuid},
+                        {
+                          type: 'text',
+                          name: '_bindTo',
+                          value: mainProductBindId,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindQuantity',
+                          value: chaseBindQuantity.not_allow,
+                        },
+                        {
+                          type: 'text',
+                          name: '_bindAloneDelete',
+                          value: chaseBindAloneDelete.not_allow,
+                        },
+                        {
+                          type: 'text',
+                          name: 'customInfo',
+                          value: JSON.stringify({...cardIncrementData}),
+                        },
+                      ],
+                    } 
+                  );
+                }
+
+                {{!-- $('#sunzi-input').val(JSON.stringify(param));
+                $('#sunzi-cart').val(JSON.stringify({
+                  image: [previewImage]
+                })); --}}
+          		
+                // 判断是否存在关联产品
+                {{!-- if (relatedProducts.length) {
+                  $('#sunzi-related-products').val(JSON.stringify(relatedProducts)); 
+                } --}}
+                  
+                // 加车事件触发
+                {{!-- await _sunzi_add_cart();
+                await _sunzi_add_to_cart_multi(_queue); --}}
+
+                // 主产品属性
+                const mainProductProperties = [
+                  {
+                    type: 'text',
+                    name: "customInfo",
+                    value: JSON.stringify(param),    
+                  },
+                  {
+                    type: 'text',
+                    name: "_from",
+                    value: "sunzi-lego-mini-ky",    
+                  },
+                   {
+                    type: 'text',
+                    name: "_sunzi_cart",
+                    value: JSON.stringify({
+                      'image': [ previewImage ]
+                    })    
+                  },
+                  {
+                    type: 'text',
+                    name: "featured_image",
+                    value: product.featured_image.src,
+                  }
+                ];
+
+                // 如果有追销产品，主产品绑定_bind，请参考《关联产品加购绑定说明》
+                if( relatedProducts.length ){
+                  mainProductProperties.push({
+                    type: 'text',
+                    name: "_bind",
+                    value: mainProductBindId
+                  })
+                }
+
+                // 获取定制参数
+                const currentVariantInfo = getCurProduct();
+                var queryId = getQueryVariable('sku');
+                var variantId = $('[name="id"]').val() || queryId || product.variants[0].id;
+                var curProduct = product.variants.find(item => item.id == variantId);
+                console.log("product",product)
+                // 加车主产品
+                _queue.push({
+                  id: curProduct.id,
+                  properties: mainProductProperties,
+                });
+                console.log('最终加车前一步')
+                await _sunzi_add_to_cart_multi(_queue.map(item => Object.assign({ quantity: 1 }, item)));
+                $('#sunzi-loading').hide()
+
+              }
+            },
+            _matomoId,
+            document.getElementById(domId)
+          );
+  }
+
+var singleLego = ()=> {
+  console.log('点击点击点点滴滴', {{{ JSONstringify product }}});
+  const uuid = _create_uuid()
+  let singleData = undefined;
+  _sunzi_request('{{requestURL}}', function(data) {
+    console.log('singleData',data)
+    initDataSingle(data)
+    singleData = data
+    renderComponentSingle('sunzi-node', uuid, singleData);
+    $("[class^='sunzi__button-custom']").css("opacity","0")
+    $('.sunzi-lego-mini').find("[class^='sunzi__button-custom']").click();
+
+    // $("[class^='sunzi__button-custom']").click();
+  })
+}
+// 绑定 首页按钮， 不同站点按钮类名不同
+const button = location.href === 'https://myblockfigures.com/' ? document.querySelector('.sunzi_button_lego') : document.querySelector('.lego_banner_main .lego_button');
+if(button) button.addEventListener('click', singleLego);
+</script>
